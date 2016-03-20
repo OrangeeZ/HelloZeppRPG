@@ -1,0 +1,53 @@
+﻿using System;
+using UnityEngine;
+
+public abstract class Item {
+
+    public readonly ItemInfo info;
+
+    protected IInventory Inventory;
+
+    protected Character Character;
+
+    protected Item( ItemInfo info ) {
+
+        this.info = info;
+    }
+
+    public virtual void SetCharacter( Character character ) {
+
+        Character = character;
+	    Inventory = character.Inventory;
+    }
+
+	public abstract void Apply();
+
+}
+
+public class ItemInfo : ScriptableObject {
+
+    public string Name;
+
+    public ItemView groundView;
+
+    public Sprite inventoryIcon;
+
+    public Color color;
+
+	public virtual Item GetItem() {
+		
+		throw new NotImplementedException();
+	}
+
+    public ItemView DropItem( Transform transform ) {
+
+        var item = GetItem();
+
+        var view = Instantiate( groundView, transform.position, transform.rotation ) as ItemView;
+
+        view.item = item;
+
+		return view;
+    }
+
+}
