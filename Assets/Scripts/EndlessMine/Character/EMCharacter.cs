@@ -62,7 +62,7 @@ public class EMCharacter : Character {
 
 		if (updatePawnPosition)
 		{
-		UpdatePawnPosition();						
+			UpdatePawnPosition();
 		}
 
 	}
@@ -80,7 +80,10 @@ public class EMCharacter : Character {
 		base.Dispose();
 
 		Instances.Remove( this );
+	}
 
+	public void RemoveFromGrid()
+	{
 		BattleGrid.SetCharacterAtCell( X, Y, null );
 	}
 

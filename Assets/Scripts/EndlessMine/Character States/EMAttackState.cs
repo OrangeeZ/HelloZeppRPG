@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using EndlessMine.Items;
 
 namespace EndlessMine.Character.States {
 
@@ -34,16 +35,16 @@ namespace EndlessMine.Character.States {
 
 				if ( attackTarget != null && attackTarget.TeamId != character.TeamId ) {
 
-					attackTarget.Damage( 1 );
+					weapon.Attack(attackTarget);
 					_attackTimer.Reset();
 
 					yield return null;
 				}
 			}
 
-			private Weapon GetActiveWeapon() {
+			private EMWeaponInfo.EMWeapon GetActiveWeapon() {
 
-				return character.Inventory.GetArmSlotItem<Weapon>( ArmSlotType.Primary );
+				return character.Inventory.GetArmSlotItem<EMWeaponInfo.EMWeapon>( ArmSlotType.Primary );
 			}
 
 		}

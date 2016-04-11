@@ -3,14 +3,18 @@
 namespace EndlessMine.Items {
 
 	[CreateAssetMenu( menuName = "EM/Items/Weapon" )]
-	public class EMWeaponInfo : WeaponInfo {
+	public class EMWeaponInfo : WeaponInfo
+	{
 
-		private class EMWeapon : Weapon<EMWeaponInfo> {
+		[SerializeField]
+		private Projectile _attackEffectPrefab;
+
+		public class EMWeapon : Weapon<EMWeaponInfo> {
 
 			public EMWeapon( ItemInfo info ) : base( info ) {
 			}
 
-			public override bool CanAttack( global::Character target ) {
+			public bool CanAttack( EMCharacter target ) {
 
 				if ( target == null ) {
 
@@ -18,12 +22,22 @@ namespace EndlessMine.Items {
 				}
 
 				var thisCharacter = Character as EMCharacter;
-				var otherCharacter = target as EMCharacter;
+				var otherCharacter = target;
 
 				return Mathf.Abs( thisCharacter.X - otherCharacter.X ) <= typedInfo.AttackRange;
 			}
 
-			public override void Attack( global::Character target ) {
+			public void Attack( EMCharacter target ) {
+
+				var thisCharacter = Character as EMCharacter;
+				var otherCharacter = target;
+				var direction = new Vector3( otherCharacter.X - thisCharacter.X, otherCharacter.Y - thisCharacter.Y ) ;
+
+				if (typedInfo._attackEffectPrefab != null) {
+
+					var attackEffectInstance = Instantiate(typedInfo._attackEffectPrefab);
+					attackEffectInstance.Launch(thisCharacter, direction.ToXZ(), 5f, 0, false, 0f);
+				}
 
 				target.Damage( typedInfo.BaseDamage );
 			}

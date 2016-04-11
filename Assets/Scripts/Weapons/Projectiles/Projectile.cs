@@ -62,6 +62,7 @@ public class Projectile : AObject {
 		_splashRange = splashRange;
 		_frameCountStart = Time.frameCount;
 
+		transform.position = owner.Pawn.position;
 		transform.rotation = this.Owner.Pawn.rotation;
 
 		_timer = new AutoTimer( Lifetime );
