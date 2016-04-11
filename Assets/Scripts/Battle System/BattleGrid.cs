@@ -46,7 +46,8 @@ namespace EndlessMine.BattleSystem {
 
 			for ( var i = 0; i < 4; ++i ) {
 
-				var cell = GetCell( x + Mathf.Cos( x ).RoundToInt(), y + Mathf.Sin( y ).RoundToInt() );
+				var angle = i * Mathf.PI * 0.5f;
+				var cell = GetCell( x + Mathf.Cos( angle ).RoundToInt(), y + Mathf.Sin( angle ).RoundToInt() );
 				if ( cell != null ) {
 
 					yield return cell;
@@ -87,14 +88,14 @@ namespace EndlessMine.BattleSystem {
 			return GetCharacterAtCell( x, y ) == null;
 		}
 
-		public global::Character GetCharacterAtCell( int x, int y ) {
+		public EMCharacter GetCharacterAtCell( int x, int y ) {
 
 			var cell = GetCell( x, y );
 
 			return cell != null ? cell.Character : null;
 		}
 
-		public global::Character GetCharacterAtDirectionX( int x, int y, int direction ) {
+		public EMCharacter GetCharacterAtDirectionX( int x, int y, int direction ) {
 
 			for ( var i = x; i >= 0 && i < _width; i += direction ) {
 

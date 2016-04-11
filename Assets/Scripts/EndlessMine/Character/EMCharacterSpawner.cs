@@ -30,7 +30,7 @@ public class EMCharacterSpawner : MonoBehaviour {
 
 		if ( _startFromEnd ) {
 
-			result.SetPosition( _battleGrid.GetWidth() - 1, 0 );
+			result.SetPosition( _battleGrid.GetWidth() - 1, 0, updatePawnPosition: true);
 		}
 
 		result.MoveBy( _startOffsetX, _startOffsetY );

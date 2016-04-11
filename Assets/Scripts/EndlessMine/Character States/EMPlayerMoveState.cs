@@ -26,13 +26,11 @@ public class EMPlayerMoveState : CharacterStateInfo {
 
 			yield return null;
 
-			var emCharacter = character as EMCharacter;
+			var animationBlock = MoveAnimation( 0.5f, _x, _y ).GetEnumerator();
+			while ( animationBlock.MoveNext() ) {
 
-			//emCharacter.BattleGrid.SetCharacterAtCell( emCharacter.X, emCharacter.Y, null );
-
-			emCharacter.SetPosition( _x, _y );
-
-			//emCharacter.BattleGrid.SetCharacterAtCell( emCharacter.X, emCharacter.Y, emCharacter );
+				yield return null;
+			}
 
 			yield return null;
 
@@ -54,6 +52,24 @@ public class EMPlayerMoveState : CharacterStateInfo {
 			_hasDestination = true;
 
 			stateController.TrySetState( this );
+		}
+
+		private IEnumerable MoveAnimation(float duration, int targetX, int targetY) {
+
+			var emCharacter = character as EMCharacter;
+
+			emCharacter.SetPosition( targetX, targetY, updatePawnPosition: false);
+
+			var fromPosition = character.Pawn.position;
+			var toPosition = emCharacter.BattleGrid.GridToWorldPosition(targetX, targetY);
+
+			var timer = new AutoTimer(duration);
+			while (timer.ValueNormalized < 1) {
+
+				character.Pawn.position = Vector3.Slerp(fromPosition, toPosition, timer.ValueNormalized);
+
+				yield return null;
+			}
 		}
 
 	}

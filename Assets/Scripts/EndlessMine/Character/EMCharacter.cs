@@ -51,14 +51,20 @@ public class EMCharacter : Character {
 		UpdatePawnPosition();
 	}
 
-	public void SetPosition( int x, int y ) {
+	public void SetPosition(int x, int y, bool updatePawnPosition) {
 
 		OnExitCell( X, Y );
 
 		X = x;
 		Y = y;
 
-		UpdatePawnPosition();
+		BattleGrid.SetCharacterAtCell( X, Y, this );
+
+		if (updatePawnPosition)
+		{
+		UpdatePawnPosition();						
+		}
+
 	}
 
 	public void SetDestination( int x, int y ) {
@@ -101,8 +107,6 @@ public class EMCharacter : Character {
 	private void UpdatePawnPosition() {
 
 		Pawn.transform.position = BattleGrid.GridToWorldPosition( X, Y );
-
-		BattleGrid.SetCharacterAtCell( X, Y, this );
 	}
 
 }
